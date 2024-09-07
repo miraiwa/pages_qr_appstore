@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>OS Detection</title>
+    <script>
+        // Function to determine the mobile operating system
+        const getMobileOperatingSystem = () => {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            if (/android/i.test(userAgent)) {
+                return "Android";
+            }
+
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                return "iOS";
+            }
+
+            return "unknown";
+        };
+
+        // Function to handle redirection based on the detected OS
+        const detectAndServe = () => {
+            const os = getMobileOperatingSystem();
+            const urls = {
+                Android: "https://play.google.com/store/apps/details?id=app.organicmaps&hl=en&pli=1",
+                iOS: "https://apps.apple.com/us/app/organic-maps-offline-map/id1567437057",
+                unknown: "https://www.microsoft.com/ja-jp"
+            };
+
+            const redirectUrl = urls[os] || urls.unknown;
+
+            setTimeout(() => {
+                window.location.href = redirectUrl;
+            }, 2000); // Redirect after 2 seconds
+        };
+
+        // Execute the redirection on page load
+        document.addEventListener('DOMContentLoaded', detectAndServe);
+    </script>
+</head>
+<body>
+    <h1>hello</h1>
+</body>
+</html>
